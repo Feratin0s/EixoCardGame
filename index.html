@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Linkar CSS -->
+    <link rel="stylesheet" href="./CSS/reset.css" />
+    <link rel="stylesheet" href="./CSS/start.css" />
+    <link rel="stylesheet" href="./CSS/style.css" />
+
+    <!-- Letra - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Letra - Oswald & Righteous -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald&family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Letra - MontSerrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Titulo -->
+    <link rel="icon" type="image/png" href="./Photos/brainstorm.png" />
+    <title>Memory Game</title>
+    <!-- Titulo declarado no JAVASCRIPT -->
+  </head>
+
+  <body>
+    <!-- DIV CORPO DO START -->
+    <div class="corpostart">
+      <img class="logobrazil" src="./Photos/EIXOlogo.png" alt="" />
+      <!-- Tela inicial -->
+      <div class="iniciar">
+        <img src="./Photos/brain.png" alt="" /><button onclick="Jogar()">
+          Play!
+        </button>
+        <a>by: Arthur Ferraz</a>
+      </div>
+    </div>
+    <!-- PARROT CARD GAME -->
+    <div class="corpo">
+      <ion-icon onclick="Reiniciar()" name="refresh-outline"></ion-icon>
+      <div class="titulo">
+        <div class="letreiro">
+          <p>EIXO</p>
+          <p>CARD</p>
+          <p>GAME</p>
+        </div>
+        <div class="letreiro380px">
+          <p>EIXO</p>
+          <p>CARD</p>
+          <p>GAME</p>
+        </div>
+      </div>
+      <!-- Contador CELL -->
+      <div class="contadorcel"></div>
+      <div id="motivational-background"></div> <!-- ATENÇÃO AQUI -->
+      <div class="pool" data-test="card">
+        <!-- O JAVASCRIPT ADICIONA CARTAS AUTOMATICAMENTE -->
+      </div>
+      <!-- Contador PC -->
+      <div class="containercontador"></div>
+      <!-- Contador de TENTATIVAS -->
+      <div class="textotries">
+        <div class="tentativas" id="counter">Tries: 0</div>
+      </div>
+    </div>
+    <!-- SCRIPTS -->
+    <script src="script.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>

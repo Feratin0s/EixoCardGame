@@ -1,0 +1,446 @@
+// Sons
+
+// Carregando os sons
+const flipSound = new Audio('Sounds/soundEffect.mp3');
+flipSound.volume = 0.2; // volume de 0 a 1
+const matchSound = new Audio('Sounds/MeContrataEIXO.mp3');
+const winSound = new Audio('Sounds/winSound.mp3');
+const backgroundMusic = new Audio('Sounds/background.mp3');
+backgroundMusic.loop = true; // faz tocar em loop
+backgroundMusic.volume = 0.1; // volume de 0 a 1
+
+function playBackgroundMusic() {
+    backgroundMusic.play();
+}
+
+// Funções para tocar som
+function playFlipSound() {
+    flipSound.currentTime = 0; // Reinicia som se já estiver tocando
+    flipSound.play();
+}
+
+function playMatchSound() {
+    matchSound.currentTime = 0;
+    matchSound.play();
+}
+
+function playWinSound() {
+    winSound.currentTime = 0;
+    winSound.play();
+}
+
+// Numeros de cartas a ser jogadas no máximo 16
+let Cartas = null;
+
+// Array das cartas
+let ArrayCards = [];
+
+// Variável para armazenar os pares de cartas encontrados
+let paresEncontrados = [];
+
+// Código das STRINGS
+
+var A = "A";
+var B = "B";
+var C = "C";
+var D = "D";
+var E = "E";
+var F = "F";
+var G = "G";
+var H = "H";
+var I = "I";
+var J = "J";
+
+// ----------------------------------------------------
+
+const frases = [
+  "SAMEJEM-55",
+  "Astronautas não foram feitos para o chão, mova-se!",
+  "A responsabilidade é sempre sua, seja Dono",
+  "A Paixão pelo que fazemos é o que nos move",
+  "O Resultado gera impacto",
+  "Diferenciados no modo de atuar",
+  "ESTOU CONTEMPLADO!!!",
+  "Calma galera, um por vez!!!",
+  "Ainda estou aqui",
+  "VEM AI!!!"
+];
+
+function criarFrase() {
+  const container = document.getElementById('motivational-background');
+  const frase = document.createElement('span');
+  frase.classList.add('motivational-text');
+  frase.textContent = frases[Math.floor(Math.random() * frases.length)];
+
+  // Posição aleatória
+  frase.style.left = `${Math.random() * 100}vw`;
+  frase.style.top = `${Math.random() * 100}vh`;
+  frase.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
+  frase.style.animationDuration = `${Math.random() * 10 + 8}s`;
+
+  container.appendChild(frase);
+
+  // Remover depois da animação
+  setTimeout(() => container.removeChild(frase), 15000);
+}
+
+// Criar uma frase a cada intervalo
+setInterval(criarFrase, 1000);
+// ----------------------------------------------------
+
+//Variavel pra corrigir bug
+
+//Ao apertar o botao
+// Começo de código, ao clicar no botão Play!
+//setTimeout(function () {
+//    Jogar();
+//}, 1000);
+
+//Iniciar tudo
+function Jogar() {
+    Cartas = parseInt(prompt(`Quantas cartas você quer? Digite um número par entre 4 e 20`));
+    if (typeof Cartas === 'number' && Cartas % 2 === 0 && Cartas >= 4 && Cartas <= 20) {
+        const iniciar = document.querySelector(`.corpostart`);
+        iniciar.style.display = (`none`);
+        const parrot = document.querySelector(`.corpo`);
+        parrot.style.display = (`block`);
+        // Muda o nome da página
+        document.title = "EIXO Card Game";
+        //Aumenta a div pool
+        ContabilizadorCartas();
+        VerificaLargura(); 
+        setTimeout(iniciarTimer, 500);
+        playBackgroundMusic();
+    }
+    else {
+        console.log(`Repetiu`);
+        Jogar();
+    }
+} 1
+
+
+//Aumenta o tamanho da div POOL para responsividade 
+//-------------------------------------------------------------------------------------------------------------------------
+// Função para verificar o tamanho da TELA
+function VerificaLargura() {
+    var tamanhotela = window.innerWidth;
+    console.log(tamanhotela);
+    if (tamanhotela >= 1157) {
+        aumentarDiv();
+        ContadorPC();
+    } else if (tamanhotela < 1157 && tamanhotela >= 840) {
+        aumentarMedio();
+        ContadorMobile();
+    } else if (tamanhotela < 840 && tamanhotela >= 660) {
+        aumentarMenor();
+        ContadorMobile();
+    } else if (tamanhotela < 660 && tamanhotela >= 500) {
+        aumentarPequeno();
+        ContadorMobile();
+    } else if (tamanhotela < 500) {
+        aumentarCel();
+        ContadorMobile();
+    }
+}
+
+// Função para telas maiores que 1157 pixels de largura
+function aumentarDiv() { //Funciona bem em monitores grandes divido por 2
+    console.log(`Computador`);
+    var pool = document.querySelector(`.pool`);
+    var style = getComputedStyle(pool);
+    var larguraAtual = parseInt(style.width);
+    var novaLargura = larguraAtual + (75.5 * Cartas);
+    pool.style.width = novaLargura + "px"; 1
+    return pool;
+}
+
+// Função para telas menores que 1157 e maiores que 840 pixels de largura
+function aumentarMedio() { //Funciona bem em monitores menores divido por 3
+    console.log(`Medio`);
+    var pool = document.querySelector(`.pool`);
+    pool.style.gap = '30px';
+    var style = getComputedStyle(pool);
+    var larguraAtual = parseInt(style.width);
+    var novaLargura = larguraAtual + (50.4 * Cartas);
+    pool.style.width = novaLargura + "px";
+    return pool;
+}
+
+// Função para telas menores que 840 e maiores que 660 pixels de largura
+function aumentarMenor() { //Funciona bem em monitores menores divido por 4
+    console.log('Menor');
+    var pool = document.querySelector(`.pool`);
+    pool.style.gap = '30px';
+    var style = getComputedStyle(pool);
+    var larguraAtual = parseInt(style.width);
+    var novaLargura = larguraAtual + (37.85 * Cartas);
+    pool.style.width = novaLargura + "px";
+    return pool;
+}
+
+// Função para telas menores que 660 e maiores que 500 pixels de largura
+function aumentarPequeno() { //Funciona bem em monitores menores divido por 5
+    console.log('Pequeno');
+    var pool = document.querySelector(`.pool`);
+    pool.style.gap = '30px';
+    var style = getComputedStyle(pool);
+    var larguraAtual = parseInt(style.width);
+    var novaLargura = larguraAtual + (30.4 * Cartas);
+    pool.style.width = novaLargura + "px";
+    return pool;
+}
+
+// Função para telas menores que 500 e maiores que 0 pixels de largura
+function aumentarCel() { //Funciona bem em monitores menores divido por 14
+    console.log('Cel');
+    var pool = document.querySelector(`.pool`);
+    pool.style.gap = '20px';
+    var style = getComputedStyle(pool);
+    var larguraAtual = parseInt(style.width);
+    var novaLargura = larguraAtual + (117);
+    pool.style.width = novaLargura + "px";
+    return pool;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+//For para adicionar cartas
+//Adiciona div responsável pela carta
+function NumCards() {
+    console.log(ArrayCards);
+    let addCard = document.querySelector(".pool");
+    for (var i = 0; i < Cartas; i++) {
+        addCard.innerHTML += `<div class="card" onclick="flip(this,${ArrayCards[i]}, ${i})"><div class="front-face face"><img data-test="face-down-image" class="size" src="./Photos/back.svg" alt=""></div><div class="back-face face"><img class="size" data-test="face-up-image" src="./Photos/${ArrayCards[i]}.png" alt=""></div></div>`;
+    }
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+function ContabilizadorCartas() {
+    if (Cartas === 20) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E, F, F, G, G, H, H, I, I, J, J];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 18) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E, F, F, G, G, H, H, I, I];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 16) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E, F, F, G, G, H, H];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 14) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E, F, F, G, G];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 12) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E, F, F];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 10) {
+        ArrayCards = [A, A, B, B, C, C, D, D, E, E];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 8) {
+        ArrayCards = [A, A, B, B, C, C, D, D];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 6) {
+        ArrayCards = [A, A, B, B, C, C];
+        EmbaralhaArray(ArrayCards);
+    } else if (Cartas === 4) {
+        ArrayCards = [A, A, B, B];
+        EmbaralhaArray(ArrayCards);
+    }
+}
+
+// Embaralhar as arrays - Função para embaralhar as cartas
+function EmbaralhaArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    NumCards();
+    return array;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+// Função verificador de cartas repetidas
+function VerificaCarta(valor) {
+    if (!puxa.includes(valor)) {
+        puxa.push(valor);
+        console.log(puxa);
+    }
+}
+
+
+// Função VIRAR CARTA
+// Comparador de cartas
+let cartaVirada = null;
+let cartasSelecionadas = [];
+let virar = null;
+
+// Variaveis pra verificar cara
+let indexFirst = null;
+let indexSecond = null;
+let puxa = [];
+
+// Virar as cartas ao clicar
+
+// Função VIRAR CARTA
+function flip(card, valor, unica) {
+    // Verifica se a carta já foi encontrada e evita que ela seja virada novamente
+    if (card.classList.contains('encontrada')) {
+        return;
+    }
+
+    // Verifica se a carta já está virada
+    if (card.classList.contains('selecionada')) {
+        return;
+    }
+
+    // Verifica se já foram selecionadas duas cartas
+    if (cartasSelecionadas.length === 2) {
+        return;
+    }
+
+    // Vira a carta selecionada
+    Counter();
+    playFlipSound();
+    card.classList.add('selecionada');
+    const mostrar = card.querySelector('.back-face');
+    mostrar.style.transform = 'rotateY(0deg)';
+
+    // Armazena a carta selecionada
+    cartasSelecionadas.push([valor, unica]);
+
+    // Verifica se foram selecionadas duas cartas
+    if (cartasSelecionadas.length === 2) {
+        // Compara os valores das cartas selecionadas
+        if (cartasSelecionadas[0][0] === cartasSelecionadas[1][0]) {
+            // As cartas são iguais, marca como encontradas
+            playMatchSound();
+            paresEncontrados.push(cartasSelecionadas[0][0]);
+            const indexFirst = cartasSelecionadas[0][1];
+            const indexSecond = cartasSelecionadas[1][1];
+            VerificaCarta(indexFirst);
+            VerificaCarta(indexSecond);
+            Ganhou();
+            cartasSelecionadas = []; // Limpa as cartas selecionadas
+        } else {
+            // As cartas são diferentes, aguarda um pouco e vira as cartas novamente
+            setTimeout(function () {
+                console.log(`VIRAR`);
+                const firstCard = cartasSelecionadas[0][1];
+                const secondCard = cartasSelecionadas[1][1];
+
+                const firstCardElement = document.querySelector(`.card:nth-child(${firstCard + 1})`);
+                const secondCardElement = document.querySelector(`.card:nth-child(${secondCard + 1})`);
+
+                firstCardElement.classList.remove('selecionada');
+                const showFirst = firstCardElement.querySelector('.front-face');
+                showFirst.style.transform = 'rotateY(0deg)';
+
+                const HideFirst = firstCardElement.querySelector('.back-face');
+                HideFirst.style.transform = 'rotateY(180deg)';
+
+                secondCardElement.classList.remove('selecionada');
+                const showSecond = secondCardElement.querySelector('.front-face');
+                showSecond.style.transform = 'rotateY(0deg)';
+
+                const HideSecond = secondCardElement.querySelector('.back-face');
+                HideSecond.style.transform = 'rotateY(180deg)';
+
+                cartasSelecionadas = []; // Limpa as cartas selecionadas
+            }, 1000);
+        }
+    }
+}
+
+
+//Ganhou 
+
+function Ganhou() {
+    setTimeout(function () {
+        console.log(puxa.length);
+        if (puxa.length === Cartas) {
+            playWinSound();
+            alert(`Você ganhou em ${ContadorTries} jogadas! A duração do jogo foi de ${tempoFormatado} segundos!`);
+            Reiniciar();
+            pararTimer();
+            iniciarPiscar();
+            Cartas = null;
+        }
+    }, 1000);
+}
+
+//Reset
+
+function Reiniciar() {
+location.reload();
+}
+
+// Contador
+
+var intervaloTimer;
+var minutos = 0;
+var segundos = 0;
+
+function iniciarTimer() {
+    if (!intervaloTimer) {
+        intervaloTimer = setInterval(atualizarTimer, 1000);
+    }
+}
+
+function pararTimer() {
+    clearInterval(intervaloTimer);
+    intervaloTimer = null;
+}
+var tempoFormatado;
+function atualizarTimer() {
+    segundos++;
+    if (segundos === 60) {
+        segundos = 0;
+        minutos++;
+    }
+    tempoFormatado = formatarTempo(minutos, segundos);
+    document.getElementById("timer").textContent = tempoFormatado;
+}
+
+function formatarTempo(minutos, segundos) {
+    var minutosFormatados = minutos < 10 ? "0" + minutos : minutos;
+    var segundosFormatados = segundos < 10 ? "0" + segundos : segundos;
+    return minutosFormatados + ":" + segundosFormatados;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+var intervaloPiscar;
+
+// Faz piscar
+function piscarContador() {
+    var contador = document.getElementById('contador');
+    if (contador.style.display === "none") {
+        contador.style.display = "block";
+    } else {
+        contador.style.display = "none";
+    }
+}
+
+// Intervalo de tempo
+function iniciarPiscar() {
+    intervaloPiscar = setInterval(piscarContador, 500);
+}
+
+function ContadorMobile() {
+    var Mobile = document.querySelector('.contadorcel');
+    Mobile.innerHTML += '<div class="contador" data-test="timer" id="contador"><div class="timer cel"><span id="timer">00:00</span></div></div>'
+}
+
+function ContadorPC() {
+    var PC = document.querySelector('.containercontador');
+    PC.innerHTML += '<div class="contador" data-test="timer" id="contador"> <div class="timer pc"><span id="timer">00:00</span></div></div>'
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+let ContadorTries = 0;
+
+function Counter() {
+    var Counter = parseInt(ContadorTries); // Converte para número
+    ContadorTries = Counter + 1;
+    document.getElementById("counter").textContent = "Tries: " + ContadorTries;
+}

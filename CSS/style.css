@@ -1,0 +1,241 @@
+body {
+    background-color: #EE3327;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #10112E;
+}
+
+.titulo .letreiro380px {
+
+    /* Formatacao */
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 56px;
+    line-height: 66px;
+    letter-spacing: -0.004em;
+
+    /*Letra*/
+
+    color: #FFFFFF;
+    margin-top: 40px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 540px;
+}
+
+.titulo .letreiro {
+
+    /* Formatacao */
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 66px;
+    letter-spacing: -0.004em;
+
+    /*Letra*/
+
+    color: #FFFFFF;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 540px;
+}
+
+/*Responsividade do LETREIRO */
+@media (max-width: 560px) {
+    .titulo .letreiro {
+        flex-direction: column;
+        width: auto;
+    }
+
+    .pool {
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 380px) {
+    .titulo .letreiro380px {
+        flex-direction: column;
+        display: flex;
+        width: auto;
+    }
+
+    .titulo .letreiro {
+        display: none;
+    }
+
+    .pool {
+        margin: 20px auto;
+    }
+}
+
+/*--------------------------------------------------------------------------------------------------------------------------*/
+
+#motivational-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Para não interferir nos cliques */
+  overflow: hidden;
+  z-index: 0;
+}
+
+.motivational-text {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  animation: floatText 10s linear infinite;
+}
+
+@keyframes floatText {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+
+/*Container das cartas, necessário fazer responsividade depois*/
+
+.corpo {
+    display: none;
+}
+
+ion-icon {
+    position: fixed;
+    font-size: 40px;
+    top: 20px;
+    right: 30px;
+    background-color: #A7E9AF;
+    border-radius: 100%;
+    border: solid black 3px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+ion-icon:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+
+.pool {
+    margin: 50px auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 34px;
+    width: 0px;
+    /*WIDTH É AJUSTADO PELO NÚMERO DE CARTAS NO JAVASCRIPT*/
+}
+
+.pool .card {
+    height: 146px;
+    width: 117px;
+    position: relative;
+    border-radius: 10px;
+    background-color: #10112E;
+}
+
+.pool .card .face {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d;
+}
+
+.back-face {
+    transform: rotateY(180deg);
+    background-color: #FFFFFF;
+}
+
+
+/*Tamanho do papagaio que vai no meio da carta*/
+
+.pool .card .size {
+    width: 100px;
+    height: 100px;
+}
+
+
+
+
+/* TIMER */
+
+.containercontador {
+    height: 70px;
+}
+
+.contador .timer {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 66px;
+    letter-spacing: -0.004em;
+    color: #10112E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contador .pc {
+    font-size: 120px;
+    margin-top: 80px;
+}
+
+.contador .cel {
+    font-size: 30px;
+    color: #10112E;
+}
+
+.contadorcel {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+/*Contador de tentativas */
+.textotries {
+    position: fixed;
+    bottom: 37px;
+    right: 20px;
+    font-size: 30px;
+    display: flex;
+}
+
+.textotries .tentativas {
+    font-size: 30px;
+    color: #10112E;
+}
