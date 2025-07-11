@@ -1,10 +1,9 @@
-// Sons
-
 // Carregando os sons
 const flipSound = new Audio('Sounds/soundEffect.mp3');
 flipSound.volume = 0.2; // volume de 0 a 1
 const matchSound = new Audio('Sounds/MeContrataEIXO.mp3');
 const winSound = new Audio('Sounds/winSound.mp3');
+//winSound.loop = 2;
 const backgroundMusic = new Audio('Sounds/background.mp3');
 backgroundMusic.loop = true; // faz tocar em loop
 backgroundMusic.volume = 0.1; // volume de 0 a 1
@@ -25,8 +24,21 @@ function playMatchSound() {
 }
 
 function playWinSound() {
-    winSound.currentTime = 0;
+    let repeatCount = 0;
+    const maxRepeats = 2;
+
+    winSound.currentTime = 0; // Garante que começa do início
     winSound.play();
+
+    winSound.addEventListener('ended', function repetir() {
+        repeatCount++;
+        if (repeatCount < maxRepeats) {
+            winSound.currentTime = 0;
+            winSound.play();
+        } else {
+            winSound.removeEventListener('ended', repetir); // Limpa o evento depois
+        }
+    });
 }
 
 // Numeros de cartas a ser jogadas no máximo 16
@@ -54,34 +66,34 @@ var J = "J";
 // ----------------------------------------------------
 
 const frases = [
-  "SAMEJEM-55",
-  "Astronautas não foram feitos para o chão, mova-se!",
-  "A responsabilidade é sempre sua, seja Dono",
-  "A Paixão pelo que fazemos é o que nos move",
-  "O Resultado gera impacto",
-  "Diferenciados no modo de atuar",
-  "ESTOU CONTEMPLADO!!!",
-  "Calma galera, um por vez!!!",
-  "Ainda estou aqui",
-  "VEM AI!!!"
+    "SAMEJEM-55",
+    "Astronautas não foram feitos para o chão, mova-se!",
+    "A responsabilidade é sempre sua, seja Dono",
+    "A Paixão pelo que fazemos é o que nos move",
+    "O Resultado gera impacto",
+    "Diferenciados no modo de atuar",
+    "ESTOU CONTEMPLADO!!!",
+    "Calma galera, um por vez!!!",
+    "Ainda estou aqui",
+    "VEM AI!!!"
 ];
 
 function criarFrase() {
-  const container = document.getElementById('motivational-background');
-  const frase = document.createElement('span');
-  frase.classList.add('motivational-text');
-  frase.textContent = frases[Math.floor(Math.random() * frases.length)];
+    const container = document.getElementById('motivational-background');
+    const frase = document.createElement('span');
+    frase.classList.add('motivational-text');
+    frase.textContent = frases[Math.floor(Math.random() * frases.length)];
 
-  // Posição aleatória
-  frase.style.left = `${Math.random() * 100}vw`;
-  frase.style.top = `${Math.random() * 100}vh`;
-  frase.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
-  frase.style.animationDuration = `${Math.random() * 10 + 8}s`;
+    // Posição aleatória
+    frase.style.left = `${Math.random() * 100}vw`;
+    frase.style.top = `${Math.random() * 100}vh`;
+    frase.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
+    frase.style.animationDuration = `${Math.random() * 10 + 8}s`;
 
-  container.appendChild(frase);
+    container.appendChild(frase);
 
-  // Remover depois da animação
-  setTimeout(() => container.removeChild(frase), 15000);
+    // Remover depois da animação
+    setTimeout(() => container.removeChild(frase), 15000);
 }
 
 // Criar uma frase a cada intervalo
@@ -108,7 +120,7 @@ function Jogar() {
         document.title = "EIXO Card Game";
         //Aumenta a div pool
         ContabilizadorCartas();
-        VerificaLargura(); 
+        VerificaLargura();
         setTimeout(iniciarTimer, 500);
         playBackgroundMusic();
     }
@@ -357,11 +369,22 @@ function Ganhou() {
     setTimeout(function () {
         console.log(puxa.length);
         if (puxa.length === Cartas) {
+            backgroundMusic.pause();
             playWinSound();
-            alert(`Você ganhou em ${ContadorTries} jogadas! A duração do jogo foi de ${tempoFormatado} segundos!`);
-            Reiniciar();
-            pararTimer();
-            iniciarPiscar();
+            const winScreen = document.querySelector(".winScreen");
+            winScreen.style.display = "flex";
+
+            const novaDiv = document.createElement("WinMessage");
+            novaDiv.textContent = `Você ganhou em ${ContadorTries} jogadas! A duração do jogo foi de ${tempoFormatado} segundos!   EIXO ME CONTRATA!! EIXO ME CONTRATA!! EIXO ME CONTRATA!! EIXO ME CONTRATA!!`;
+            novaDiv.classList.add("mensagemVitoria"); // opcional, se quiser estilizar via CSS
+
+            // Adicionar dentro da winScreen
+            winScreen.appendChild(novaDiv);
+            //(`Você ganhou em ${ContadorTries} jogadas! A duração do jogo foi de ${tempoFormatado} segundos!`);
+            // ---> Tirar de comentário dps
+            //Reiniciar();
+            //pararTimer();
+            //iniciarPiscar();
             Cartas = null;
         }
     }, 1000);
@@ -370,7 +393,7 @@ function Ganhou() {
 //Reset
 
 function Reiniciar() {
-location.reload();
+    location.reload();
 }
 
 // Contador
